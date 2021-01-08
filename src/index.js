@@ -45,15 +45,17 @@ app.use(cors());
 
 const router = express.Router();
 
-router.route('*.svg').get((req, res) => {
+router.route('/project_one').get((req, res) => {
     https.get("https://biud436.com:9001", function (response) {
         // Its Online
+        res.set("Cache-control", "no-store");
         res.writeHead(200, {
             'Content-Type': 'image/svg+xml'
         });
         fs.createReadStream(path.resolve(__dirname, '../public/badges/online.svg')).pipe(res);
     }).on('error', function (e) {
         // Its Offline
+        res.set("Cache-control", "no-store");
         res.writeHead(200, {
             'Content-Type': 'image/svg+xml'
         });
