@@ -1,7 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 
-const port = 3000;
+const port = 9003;
 const url = 'https://biud436.com:9001';
 
 function status(req, res) {
