@@ -119,12 +119,13 @@ class SQLManagerImpl {
 }
 
 class ShortUrl {
-    async insert(url) {
+    async insert(url, callback) {
         try {
             const man = new SQLManagerImpl();
     
             man.getConnection().then(async (conn) => {
                 await man.insertData(conn, url);
+                callback();
             }).catch(err => console.warn(err));
             
         } catch(e) {
