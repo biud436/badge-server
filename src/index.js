@@ -117,5 +117,5 @@ const server = http.createServer(app).listen(app.get("port"), () => {
 });
 
 https.createServer(options, app).listen(9004, () => {
-    console.log(`https server start : %d`, app.get("port"));
+    console.log(`https server start : %d`, 9004);
 });
