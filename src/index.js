@@ -48,23 +48,23 @@ router.route("/insertUrl").get((req, res) => {
     const query = req.query;
     const shortUrl = new ShortUrl();
     const url = query.url;
-    shortUrl.insert(url);
-
-    shortUrl.get(key, (err, result) => {
-        if(err) {
+    shortUrl.insert(url).then(i => {
+        shortUrl.get(key, (err, result) => {
+            if(err) {
+                res.json({
+                    success: false,
+                    message: err
+                });
+                
+                return;
+            }
+            const url = result[0].urlValue;
+    
             res.json({
-                success: false,
-                message: err
-            });
-            
-            return;
-        }
-        const url = result[0].urlValue;
-
-        res.json({
-            success: true,
-            shortUrl: url
-        });        
+                success: true,
+                shortUrl: url
+            });        
+        });
     });
 });
 
