@@ -10,6 +10,11 @@ const cors = require("cors");
 const fs = require('fs');
 const ShortUrl = require('./mysql');
 
+const options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/biud436.com/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/biud436.com/fullchain.pem')
+};
+
 // 익스프레스 객체 생성
 const app = express();
 
@@ -109,4 +114,8 @@ app.use("/", router);
 // 서버 생성
 const server = http.createServer(app).listen(app.get("port"), () => {
     console.log(`server start : %d`, app.get("port"));
+});
+
+https.createServer(options, app).listen(9004, () => {
+    onsole.log(`https server start : %d`, app.get("port"));
 });
