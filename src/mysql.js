@@ -116,6 +116,35 @@ class SQLManagerImpl {
         })
 
     }
+    
+    async getKey(conn, url) {
+        return new Promise((resolve, reject) => {
+            try {
+                const query = `SELECT urlKey FROM tblShortUrl WHERE urlValue = ?`;
+                const exec = conn.query(query, [
+                    url
+                ], (err, result) => {
+                    conn.release();
+
+                    if(err) {
+                        reject(err);
+                        return;
+                    }
+
+                    if(result.length > 0) {
+                        resolve(result);
+                    } else {
+                        reject("데이터를 찾을 수 없습니다.");
+                    }
+
+                });
+    
+            } catch(e) {
+                console.warn(e);
+            }
+        })
+
+    }
 }
 
 class ShortUrl {
@@ -137,6 +166,19 @@ class ShortUrl {
         const man = new SQLManagerImpl();
         man.getConnection().then(async (conn) => {
             man.getData(conn, key).then(result => {
+                callback(false, result)
+            }).catch(err => {
+                callback(true, result);
+            });
+        }).catch(err => {
+            console.warn(err);
+        });
+    }
+    
+    async getKey(url, callback) {
+        const man = new SQLManagerImpl();
+        man.getConnection().then(async (conn) => {
+            man.getKey(conn, url).then(result => {
                 callback(false, result)
             }).catch(err => {
                 callback(true, result);

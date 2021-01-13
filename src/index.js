@@ -49,7 +49,7 @@ router.route("/insertUrl").get((req, res) => {
     const shortUrl = new ShortUrl();
     const url = query.url;
     shortUrl.insert(url, () => {
-        shortUrl.get(key, (err, result) => {
+        shortUrl.getKey(url, (err, result) => {
             if(err) {
                 res.json({
                     success: false,
@@ -58,7 +58,7 @@ router.route("/insertUrl").get((req, res) => {
                 
                 return;
             }
-            const url = result[0].urlValue;
+            const url = result[0].urlKey;
     
             res.json({
                 success: true,
