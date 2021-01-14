@@ -29,5 +29,25 @@ This webserver is used a port as 9003, so you have to open port 9003 by using ``
 iptables -I INPUT 1 -p tcp --dport 9003 -j ACCEPT
 ```
 
+or you have to create a service in linux, for executing background process.
+
+```sh
+[Unit]
+Description=Badge Server
+Requires=After=mysql.service
+
+[Service]
+ExecStart=node /home/ubuntu/badge-server/src/index.js
+
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=badge-server
+
+[Install]
+WantedBy=multi-user.target
+```
+
 # Reference Docs
 I've referred <a href="https://medium.com/p/f222ece09c23">this link</a>
